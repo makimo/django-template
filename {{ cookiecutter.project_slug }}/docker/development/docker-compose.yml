@@ -1,0 +1,30 @@
+version: "3.7"
+
+networks:
+    {{ cookiecutter.project_slug }}:
+
+services:
+    {{ cookiecutter.project_slug }}-db:
+        image: postgres:12-alpine
+        environment:
+            POSTGRES_PASSWORD: secret
+            POSTGRES_USER: {{ cookiecutter.project_slug }}
+            POSTGRES_DB: {{ cookiecutter.project_slug }}
+        volumes:
+            - "./db:/var/lib/postgresql/data"
+        networks:
+            - {{ cookiecutter.project_slug }}
+
+    {{ cookiecutter.project_slug }}-backend:
+        build:
+            context: ../..
+            dockerfile: docker/development/Dockerfile
+        volumes:
+            - "../..:/app"
+        ports:
+            - "8000:8000"
+        networks:
+            - {{ cookiecutter.project_slug }}
+        depends_on:
+            - {{ cookiecutter.project_slug }}-db
+        command: "/app/tools/run-development.sh"

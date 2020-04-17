@@ -1,0 +1,16 @@
+{{ "{% extends 'base.html' %}" }}
+{{ "{% load render_assets %}" }}
+
+{{ "{% block extrastyles %}" }}
+{{ "{% render_css 'hello_world_mount' %}" }}
+{{ "{% endblock %}" }}
+
+{{ "{% block content %}" }}
+<!-- Vue entry-point -->
+<div id="app"></div>
+{{ "{% endblock %}" }}
+
+<!-- Load Vue app -->
+{{ "{% block extrajs %}" }}
+{{ "{% render_js 'hello_world_mount' %}" }}
+{{ "{% endblock %}" }}

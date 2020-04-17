@@ -1,0 +1,375 @@
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/_mixins";
+@import "~bootstrap/scss/_modal";
+
+
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Signika+Negative:700&subset=latin-ext');
+
+
+$btn-default-color: #b0b0b0;
+$brand-primary: #17b5c5;
+
+
+// Toggle Sizes
+$toggle-default-size: 1.5rem;
+$toggle-default-label-width: 4rem;
+$toggle-default-font-size: .75rem;
+
+$alegreya: 'Alegreya Sans', sans-serif;
+$signika: 'Signika Negative', sans-serif;
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $signika;
+}
+
+.cc-button {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    user-select: none;
+
+  &:focus,
+  &.focus {
+    outline: 0;
+  }
+
+  // Disabled comes first so active can properly restyle
+  &.disabled,
+  &:disabled {
+    opacity: 0.4;
+  }
+
+  // Opinionated: add "hand" cursor to non-disabled .btn elements
+  &:not(:disabled):not(.disabled) {
+    cursor: pointer;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    background-image: none;
+
+    &:focus {
+    }
+  }
+}
+
+@mixin button-color($color) {
+    border-color: darken($color, 10%);
+
+    background: $color;
+
+    @if lightness($color) > 50% {
+        color: black;
+    } @else {
+        color: white;
+    }
+
+    &:hover, &:focus {
+        border-color: darken($color, 15%);
+        background: darken($color, 3%);
+    }
+
+    &:active {
+        border-color: darken($color, 18%);
+        background: darken($color, 5%);
+    }
+}
+
+.cc-button-primary {
+    @include button-color($brand-primary);
+}
+
+.cc-button-primary-delay {
+    border: solid 1px $brand-primary;
+}
+
+.cc-button-secondary {
+    @include button-color(#fff);
+}
+
+
+// Mixin for Switch Colors
+// Variables: $color, $bg, $active-bg
+@mixin toggle-color($color: $btn-default-color, $bg: #f0f0f0, $active-bg: $brand-primary) {
+  color: $color;
+  background: $bg;
+  &:before,
+  &:after {
+    color: $color;
+  }
+  &.active {
+    background-color: $active-bg;
+  }
+}
+
+// Mixin for Default Switch Styles
+// Variables: $size, $margin, $color, $bg, $active-bg, $font-size
+@mixin toggle-mixin($size: $toggle-default-size, $margin: $toggle-default-label-width, $font-size: $toggle-default-font-size) {
+  // color: $color;
+  // background: $bg;
+  padding: 0;
+  position: relative;
+  border: none;
+  height: $size;
+  width: $size * 2;
+  border-radius: $size;
+
+  &:focus,
+  &.focus {
+    &,
+    &.active {
+      outline: none;
+    }
+  }
+
+  &:before,
+  &:after {
+    line-height: $size;
+    width: $margin;
+    text-align: center;
+    font-weight: 600;
+    // color: $color;
+    font-size: $font-size;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: absolute;
+    bottom: 0;
+    transition: opacity .25s;
+  }
+  /*&:before {
+    content: 'Nie';
+    left: -$margin;
+  }
+  &:after {
+    content: 'Tak';
+    right: -$margin;
+    opacity: .5;
+  }*/
+
+  > .handle {
+    position: absolute;
+    top: ($size * .25) / 2;
+    left: ($size * .25) / 2;
+    width: $size * .75;
+    height: $size * .75;
+    border-radius: $size * .75;
+    background: #fff;
+    transition: left .25s;
+    pointer-events: none;
+  }
+  &.active {
+    transition: background-color .25s;
+    > .handle {
+      left: $size + (($size * .25) / 2);
+      transition: left .25s;
+    }
+    &:before {
+      opacity: .5;
+    }
+    &:after {
+      opacity: 1;
+    }
+  }
+
+  &.btn-sm {
+    &:before,
+    &:after {
+      line-height: $size;
+      color: #fff;
+      letter-spacing: .75px;
+      left: $size * .275;
+      width: $size * 1.55;
+    }
+    &:before {
+      text-align: right;
+    }
+    &:after {
+      text-align: left;
+      opacity: 0;
+    }
+    &.active {
+      &:before {
+        opacity: 0;
+      }
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.btn-xs {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+}
+
+
+
+// Apply Mixin to different sizes & colors
+.cc-button-switch {
+
+  @include toggle-mixin;
+  @include toggle-color($bg: #d4d3d3);
+
+  &.btn-lg {
+    @include toggle-mixin($size: 2.5rem, $font-size: 1rem, $margin: 5rem);
+  }
+
+  &.btn-sm {
+    @include toggle-mixin($font-size: .55rem, $margin: .5rem);
+  }
+
+  &.btn-xs {
+    @include toggle-mixin($size:1rem,$margin:0);
+  }
+
+}
+
+.consent-cookie {
+    font-family: $alegreya;
+    box-sizing: border-box;
+
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+
+    z-index: 10000;
+
+    background: rgba(0,0,0,0.2);
+
+    top: 0;
+    left: 0;
+
+    justify-content: center;
+    align-items: center;
+
+    > div {
+        max-width: 40vw;
+        max-height: 80vh;
+        background: #fff;
+        padding: 20px 30px 20px 30px;
+
+        &.simple {
+            max-width: 50vw;
+        }
+
+        overflow: auto;
+    }
+
+    .cc-content {
+        .text-center, .cc-text-center {
+            text-align: center;
+            margin-top: 1em;
+        }
+    }
+
+    .cc-extended-content {
+        header {
+            border-top: 0;
+            margin-top: 0;
+            padding-top: 0;
+
+            margin-bottom: 20px;
+
+            h2 {
+                margin-top: 10px;
+            }
+        }
+
+        .cc-toggles {
+            height: 30vh;
+            overflow-y: auto;
+
+            background: /* Shadow covers */
+            linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+            radial-gradient(50% 0, farthest-side, rgba(1, 1, 1, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+            background: /* Shadow covers */
+            linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+            radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+            background-repeat: no-repeat;
+            background-color: white;
+            background-size: 100% 10px, 100% 10px, 100% 6px, 100% 6px;
+            /* Opera doesn't support this in the shorthand */
+            background-attachment: local, local, scroll, scroll;
+
+
+            .cc-column {
+                position: relative;
+
+                flex-grow: 1;
+                flex-basis: 0;
+                padding: 0 10px;
+                p {
+                    text-align: justify;
+                }
+
+                h3 {
+                    margin-right: 7rem;
+                }
+                .cc-button-switch {
+                    position: absolute;
+                    top: 4px;
+                    right: 10px;
+                }
+
+                box-sizing: border-box;
+            }
+
+            margin: 0 -10px;
+
+        }
+
+        .cc-footer {
+            text-align: center;
+            padding-top: 10px;
+
+            .cc-bottom-panel {
+                margin-left: -30px;
+                margin-right: -30px;
+                margin-bottom: -20px;
+                margin-top: 10px;
+                padding: 20px;
+                border-top: 1px solid #ccc;
+                background: #eee;
+            }
+        }
+    }
+}
+
+.cc-button-borderless {
+    background: transparent;
+    border: none;
+
+    color: $brand-primary;
+
+    &:hover {
+        color: darken($brand-primary, 10%);
+    }
+}
+
+
+@include media-breakpoint-down(xs) {
+
+    .consent-cookie {
+        > div {
+            max-width: 100vw;
+            max-height: 90vh;
+        }
+    }
+
+}

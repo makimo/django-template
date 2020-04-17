@@ -1,0 +1,33 @@
+image: python:3.5.1
+
+pipelines:
+  default:
+    - step:
+        name: Build assets
+        image: node:8.11.3
+        caches:
+          - node
+        script:
+          - npm install
+          - npm run build
+        artifacts:
+          - {{ cookiecutter.project_slug }}/static/**
+          - webpack-stats.local.json
+    - step:
+        name: Run python tests
+        caches:
+          - pipenv
+        script:
+          - python -m venv env
+          - cp {{ cookiecutter.project_slug }}/settings/email.py.base {{ cookiecutter.project_slug }}/settings/email.py
+          - cp {{ cookiecutter.project_slug }}/settings/db.py.base {{ cookiecutter.project_slug }}/settings/db.py
+          - env/bin/pip install -r requirements/local.txt
+          - env/bin/pytest --junitxml ./test-reports/junit.xml
+        services:
+          - postgres
+definitions:
+  services:
+    postgres:
+      image: postgres
+  caches:
+    pipenv: env

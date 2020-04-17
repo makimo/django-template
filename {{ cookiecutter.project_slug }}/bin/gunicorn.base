@@ -1,0 +1,27 @@
+#!/bin/bash
+
+NAME="{{ cookiecutter.project_slug }}"
+DJANGODIR="/home/sites/vhosts/{{ cookiecutter.project_slug }}"
+USER=sites
+GROUP=sites
+NUM_WORKERS=5
+
+SOCKFILE=$DJANGODIR"/run/gunicorn.sock"
+DJANGO_SETTINGS_MODULE={{ cookiecutter.project_slug }}.settings.dist
+DJANGO_WSGI_MODULE={{ cookiecutter.project_slug }}.wsgi
+
+cd $DJANGODIR
+source env/bin/activate
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
+
+exec gunicorn ${DJANGO_WSGI_MODULE}:application \
+    --name $NAME \
+    --workers $NUM_WORKERS \
+    --user=$USER --group=$GROUP \
+    --bind=unix:$SOCKFILE \
+    --log-level=debug \
+    --log-file=-

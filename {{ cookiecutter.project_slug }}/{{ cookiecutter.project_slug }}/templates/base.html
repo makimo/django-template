@@ -1,0 +1,42 @@
+{{ "{% load render_assets %}" }}
+{{ "{% load static %}" }}
+
+{{ "{% block html %}" }}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {{ "{% render_css 'vendor' %}" }}
+        {{ "{% render_css 'app' %}" }}
+
+        {{ "{% block extrastyles %} {% endblock %}" }}
+
+        {{ "{% block extrahead %} {% endblock %}" }}
+    </head>
+    <body>
+        {{ "{% block content %} {% endblock %}" }}
+
+        {{ "{% block preextrajs %} {% endblock %}" }}
+
+        <!-- Webpack's boilerplate and manifest -->
+        {{ "{% render_js 'runtime' %}" }}
+
+        <!-- Common modules - require only if file was generated -->
+        <!-- render_js 'common' -->
+
+        <!-- Dependencies -->
+        {{ "{% render_js 'vendor' %}" }}
+
+        <!-- Application's codebase -->
+        {{ "{% render_js 'app' %}" }}
+
+        <!-- Shared codebase -->
+        {{ "{% render_js 'shared' %}" }}
+
+        {{ "{% block extrajs %} {% endblock %}" }}
+    </body>
+</html>
+{{ "{% endblock %}" }}

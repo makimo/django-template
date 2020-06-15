@@ -86,11 +86,11 @@ CACHES = {
     }
 }
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-] + MIDDLEWARE
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Settings used to configurate whitenoise if needed
+# MIDDLEWARE = [
+#     'django.middleware.security.SecurityMiddleware',
+#     'whitenoise.middleware.WhiteNoiseMiddleware',
+# ] + MIDDLEWARE
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WEBPACK_MANIFEST_FILE = os.path.join(BASE_DIR, '../webpack-stats.dist.json')

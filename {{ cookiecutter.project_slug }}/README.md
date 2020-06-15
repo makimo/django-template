@@ -43,7 +43,14 @@ source env/bin/activate
 pip install -r requirements/local.txt // or requirements/dist.txt in production environment
 ```
 
-### JS Stack
+#### Environment variables
+You should copy `.env.example` file with following command:
+```
+cp .env .env.example
+```
+and populate it with your options.
+
+#### JS Stack
 ```
 npm install
 npm run watch-assets // or npm run build for one-time compilation

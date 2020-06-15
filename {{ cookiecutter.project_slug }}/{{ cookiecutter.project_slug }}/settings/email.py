@@ -1,16 +1,17 @@
 import os
 
-EMAIL_BACKEND = os.getenv(
-    'EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend'
+from .base import env
+
+EMAIL_BACKEND = env(
+    'EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend'
 )
 
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False') == 'True'
-EMAIL_HOST = os.getenv('EMAIL_HOST', '')
-EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+EMAIL_CONFIG = env.email_url(
+    'EMAIL_URL', default='smtp://user:password@localhost:25')
 
-INFO_MAIL_ACCOUNT = os.getenv('INFO_MAIL_ACCOUNT', 'no-reply@example.com')
+vars().update(EMAIL_CONFIG)
+
+INFO_MAIL_ACCOUNT = env('INFO_MAIL_ACCOUNT', default='no-reply@example.com')
 
 DEFAULT_FROM_EMAIL = INFO_MAIL_ACCOUNT
 SERVER_EMAIL = INFO_MAIL_ACCOUNT

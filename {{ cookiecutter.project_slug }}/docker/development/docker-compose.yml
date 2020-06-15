@@ -11,7 +11,7 @@ services:
             POSTGRES_USER: {{ cookiecutter.project_slug }}
             POSTGRES_DB: {{ cookiecutter.project_slug }}
         volumes:
-            - "./{{ cookiecutter.project_slug }}-db:/var/lib/postgresql/data"
+            - "{{ cookiecutter.project_slug }}-db:/var/lib/postgresql/data"
         networks:
             - {{ cookiecutter.project_slug }}
 

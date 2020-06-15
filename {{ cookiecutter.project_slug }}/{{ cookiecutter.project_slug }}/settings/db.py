@@ -1,19 +1,7 @@
 import os
 
-project_slug_upper = "{{ cookiecutter.project_slug_upper }}"
-db_name = os.environ[f'{project_slug_upper}_DB_NAME']
+import dj_database_url
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': db_name,
-        'USER': os.environ[f'{project_slug_upper}_DB_USER'],
-        'PASSWORD': os.environ[f'{project_slug_upper}_DB_PASSWORD'],
-        'HOST': os.environ[f'{project_slug_upper}_DB_HOST'],
-        'PORT': os.environ[f'{project_slug_upper}_DB_PORT'],
-        'TEST': {
-            'CHARSET': 'UTF8',
-            'NAME': f'{db_name}-test'
-        }
-    }
-}
+DATABASES = {}
+DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL', 'postgres://'), conn_max_age=600)
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'

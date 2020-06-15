@@ -30,11 +30,7 @@ services:
             - {{ cookiecutter.project_slug }}-db
         command: "/app/tools/run-development.sh"
         environment:
-            {{ cookiecutter.project_slug_upper }}_DB_NAME: {{ cookiecutter.project_slug }}
-            {{ cookiecutter.project_slug_upper }}_DB_USER: {{ cookiecutter.project_slug }}
-            {{ cookiecutter.project_slug_upper }}_DB_PASSWORD: secret
-            {{ cookiecutter.project_slug_upper }}_DB_HOST: {{ cookiecutter.project_slug }}-db
-            {{ cookiecutter.project_slug_upper }}_DB_PORT: 5432
+            DATABASE_URL: "postgresql://{{ cookiecutter.project_slug }}:secret@{{ cookiecutter.project_slug }}-db:5432/{{ cookiecutter.project_slug }}"
 
 volumes:
     {{ cookiecutter.project_slug }}-db:

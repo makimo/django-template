@@ -1,6 +1,7 @@
 {
     "project_name": "Django Template",
     "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "project_slug_upper": "{{ cookiecutter.project_name.upper().replace(' ', '_') }}",
     "project_short_description": "A template for projects used in Makimo.",
     "license": ["Proprietary", "MIT"]
 }

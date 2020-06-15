@@ -46,7 +46,7 @@ pip install -r requirements/local.txt // or requirements/dist.txt in production 
 #### Environment variables
 You should copy `.env.example` file with following command:
 ```
-cp .env .env.example
+cp .env.example .env
 ```
 and populate it with your options.
 

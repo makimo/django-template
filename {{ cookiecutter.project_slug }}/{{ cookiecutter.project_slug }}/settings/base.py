@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-if os.getenv('DATABASE_URL', None):
+if not os.getenv('DATABASE_URL', None):
     import environ
     environ.Env.read_env()
 

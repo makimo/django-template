@@ -91,6 +91,17 @@ then run the rest of the commands.
 2. Ensure that paths in `webpack-stats.dist.json` are proper (path is
 configured in `package.json`).
 
+#### Whitenoise
+To use whitenoise in production you should uncomment whitenoise package in `requirements/dist.txt`
+and uncomment following code:
+```python
+# MIDDLEWARE = [
+#     'django.middleware.security.SecurityMiddleware',
+#     'whitenoise.middleware.WhiteNoiseMiddleware',
+# ] + MIDDLEWARE
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+```
+in `dist.py` settings
 
 #### More information
 This project was created using `django-template` tool.

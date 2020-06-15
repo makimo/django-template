@@ -11,7 +11,7 @@ services:
             POSTGRES_USER: {{ cookiecutter.project_slug }}
             POSTGRES_DB: {{ cookiecutter.project_slug }}
         volumes:
-            - "./db:/var/lib/postgresql/data"
+            - "./{{ cookiecutter.project_slug }}-db:/var/lib/postgresql/data"
         networks:
             - {{ cookiecutter.project_slug }}
 
@@ -21,6 +21,7 @@ services:
             dockerfile: docker/development/Dockerfile
         volumes:
             - "../..:/app"
+            - "{{ cookiecutter.project_slug }}-node_modules:/app/node_modules"
         ports:
             - "8000:8000"
         networks:
@@ -28,3 +29,13 @@ services:
         depends_on:
             - {{ cookiecutter.project_slug }}-db
         command: "/app/tools/run-development.sh"
+        environment:
+            {{ cookiecutter.project_slug_upper }}_DB_NAME: {{ cookiecutter.project_slug }}
+            {{ cookiecutter.project_slug_upper }}_DB_USER: {{ cookiecutter.project_slug }}
+            {{ cookiecutter.project_slug_upper }}_DB_PASSWORD: secret
+            {{ cookiecutter.project_slug_upper }}_DB_HOST: {{ cookiecutter.project_slug }}-db
+            {{ cookiecutter.project_slug_upper }}_DB_PORT: 5432
+
+volumes:
+    {{ cookiecutter.project_slug }}-db:
+    {{ cookiecutter.project_slug }}-node_modules:

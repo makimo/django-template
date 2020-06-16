@@ -85,6 +85,27 @@ then run the rest of the commands.
 configured in `package.json`).
 
 
+#### Sentry
+First you should create new Sentry project. If you done it already you have to
+find `DSN` url for the project. To do that you have to open project setting
+and in `SDK Setup` tab, click at `Client Keys (DSN)` and copy the DSN to
+environment variable called `SENTRY_DSN`.
+
+##### Django
+If you want to enable Sentry logging for Django app you should uncomment
+`sentry-sdk` in the `dist` requirements and uncomment module import:
+`from .sentry import *` in `dist.py`
+
+##### Vue
+If you want to enable Sentry logging for Vue app you should add following import to your
+starting point:
+```js
+import './../scripts/sentry.js';
+```
+
+If you want to verify the installation, just generate random error and
+you should see new issue in the sentry project's page.
+
 #### More information
 This project was created using `django-template` tool.
 

@@ -72,7 +72,6 @@ LOGGING = {
     },
 }
 
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'dist')
 
 FIXTURE_DIRS = [
@@ -87,3 +86,6 @@ CACHES = {
 }
 
 WEBPACK_MANIFEST_FILE = os.path.join(BASE_DIR, '../webpack-stats.dist.json')
+
+# Uncomment this if you want to allow logging to sentry from django app
+# from .sentry import *

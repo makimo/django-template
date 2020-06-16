@@ -87,7 +87,7 @@ configured in `package.json`).
 
 #### Sentry
 First you should create new Sentry project. If you done it already you have to
-find `DSN` url for the project. To do that you have to open project setting
+find `DSN` URL for the project. To do that you have to open project setting
 and in `SDK Setup` tab, click at `Client Keys (DSN)` and copy the DSN to
 environment variable called `SENTRY_DSN`.
 
@@ -105,6 +105,8 @@ import './../scripts/sentry.js';
 
 If you want to verify the installation, just generate random error and
 you should see new issue in the sentry project's page.
+For more information about Sentry go to the docs page:
+[https://docs.sentry.io/](https://docs.sentry.io/)
 
 #### More information
 This project was created using `django-template` tool.

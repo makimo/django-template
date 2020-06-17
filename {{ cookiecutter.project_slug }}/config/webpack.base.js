@@ -83,7 +83,7 @@ module.exports = {
         new WebpackNotifierPlugin({
             title: '{{ cookiecutter.project_name }}',
             skipFirstNotification: true
-        })
+        }),
     ],
     optimization: {
         // Extract shared runtime code.

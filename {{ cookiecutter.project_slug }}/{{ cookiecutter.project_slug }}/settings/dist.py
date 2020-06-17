@@ -35,32 +35,14 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        "debug_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "level": "DEBUG",
-            "formatter": "verbose",
-            "filename": os.path.join(BASE_DIR, 'logs', 'debug.log'),
-            "maxBytes": 10485760,
-            "backupCount": 20,
-            "encoding": "utf8"
-        },
-        "info_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "level": "INFO",
-            "formatter": "verbose",
-            "filename": os.path.join(BASE_DIR, 'logs', 'info.log'),
-            "maxBytes": 10485760,
-            "backupCount": 20,
-            "encoding": "utf8"
-        }
     },
     'loggers': {
         'apps': {
             "level": "DEBUG",
-            "handlers": ["debug_file_handler", "info_file_handler"],
+            "handlers": ["console"],
         },
         'django': {
-            'handlers': ["debug_file_handler", "info_file_handler"],
+            'handlers': ["console"],
             'level': 'INFO',
             'propagate': True,
         },
@@ -71,7 +53,6 @@ LOGGING = {
         },
     },
 }
-
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'dist')
 
@@ -94,3 +75,6 @@ CACHES = {
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WEBPACK_MANIFEST_FILE = os.path.join(BASE_DIR, '../webpack-stats.dist.json')
+
+# Uncomment this if you want to allow logging to sentry from django app
+# from .sentry import *

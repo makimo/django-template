@@ -112,7 +112,8 @@ environment variable called `SENTRY_DSN`.
 ##### Django
 If you want to enable Sentry logging for Django app you should uncomment
 `sentry-sdk` in the `dist` requirements and uncomment module import:
-`from .sentry import *` in `dist.py`
+`from .sentry import *` in `dist.py`. Also you can use `SENTRY_SEND_PII` variable
+to change if user object should be attached to the Sentry log or not.
 
 ##### Vue
 If you want to enable Sentry logging for Vue app you should add following import to your

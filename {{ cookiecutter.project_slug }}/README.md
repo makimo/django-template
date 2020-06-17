@@ -104,7 +104,7 @@ and uncomment following code:
 in `dist.py` settings
 
 #### Sentry
-First you should create new Sentry project. If you done it already you have to
+First you should create new Sentry project. If you've done it already you have to
 find `DSN` URL for the project. To do that you have to open project setting
 and in `SDK Setup` tab, click at `Client Keys (DSN)` and copy the DSN to
 environment variable called `SENTRY_DSN`.

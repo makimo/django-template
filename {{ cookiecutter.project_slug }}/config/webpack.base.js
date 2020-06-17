@@ -5,7 +5,7 @@ const paths = require('./paths.js');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const Dotenv = require('dotenv-webpack');
 
@@ -29,11 +29,7 @@ module.exports = {
                     MiniCssExtractPlugin.loader,
                     {
                         loader: "css-loader",
-                        options: {
-                            minimize: {
-                                safe: true
-                            }
-                        }
+                        options: {}
                     },
                     {
                         loader: "sass-loader",

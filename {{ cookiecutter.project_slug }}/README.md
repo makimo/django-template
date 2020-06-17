@@ -104,10 +104,10 @@ and uncomment following code:
 in `dist.py` settings
 
 #### Sentry
-First you should create new Sentry project. If you've done it already you have to
-find `DSN` URL for the project. To do that you have to open project setting
-and in `SDK Setup` tab, click at `Client Keys (DSN)` and copy the DSN to
-environment variable called `SENTRY_DSN`.
+First you should create new Sentry project (https://sentry.io/)[https://sentry.io/].
+If you've done it already you have to find `DSN` URL for the project.
+To do that you have to open project setting and in `SDK Setup` tab,
+click at `Client Keys (DSN)` and copy the DSN to environment variable called `SENTRY_DSN`.
 
 ##### Django
 If you want to enable Sentry logging for Django app you should uncomment

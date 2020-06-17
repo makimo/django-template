@@ -121,6 +121,7 @@ starting point:
 ```js
 import './../scripts/sentry.js';
 ```
+and change `<DSN>` property in the `sentry.js` file.
 
 If you want to verify the installation, just generate random error and
 you should see new issue in the sentry project's page.

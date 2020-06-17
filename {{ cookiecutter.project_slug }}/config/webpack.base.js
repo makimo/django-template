@@ -7,7 +7,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
-const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     target: 'web',
@@ -84,11 +83,6 @@ module.exports = {
         new WebpackNotifierPlugin({
             title: '{{ cookiecutter.project_name }}',
             skipFirstNotification: true
-        }),
-        new Dotenv({
-            path: path.resolve(__dirname, '../.env'),
-            silent: false,
-            systemvars: true,
         }),
     ],
     optimization: {

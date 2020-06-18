@@ -12,18 +12,19 @@ class DjangoRequestJsonFormatter(jsonlogger.JsonFormatter):
             def is_django_request(request):
                 return getattr(record.request, 'method', None)
 
-            def is_json_request(request):
-                return record.request.META.get('CONTENT_TYPE', None) == 'application/json'
+            def has_correct_content_type(request):
+                CONTENT_TYPES = ['application/json', 'application/x-www-form-urlencoded']
+                return record.request.META.get('CONTENT_TYPE', None) in CONTENT_TYPES
 
-            if is_django_request(record.request) and is_json_request(record.request):
-                is_json_request = is_json_request(record.request)
+            if is_django_request(record.request):
+                has_correct_content_type = has_correct_content_type(record.request)
 
                 record.request = {
                     'request': record.request,
-                    'headers': record.request.headers,
+                    'headers': record.request.headers
                 }
 
-                if is_json_request:
-                    request.record['body'] = record.request.body.decode('UTF-8')
+                if has_correct_content_type:
+                    record.request['body'] = record.request['request'].body.decode('UTF-8')
 
         super().add_fields(log_record, record, message_dict)

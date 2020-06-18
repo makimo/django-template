@@ -30,11 +30,6 @@ LOGGING = {
         },
     },
     'handlers': {
-        'mail_admins': {
-            'class': 'django.utils.log.AdminEmailHandler',
-            'level': 'ERROR',
-            'include_html': True,
-        },
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
@@ -53,12 +48,7 @@ LOGGING = {
             'handlers': ["console_json"],
             'level': 'INFO',
             'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
+        }
     },
 }
 

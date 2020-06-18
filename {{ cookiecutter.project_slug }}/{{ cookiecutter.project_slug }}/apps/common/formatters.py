@@ -16,10 +16,14 @@ class DjangoRequestJsonFormatter(jsonlogger.JsonFormatter):
                 return record.request.META.get('CONTENT_TYPE', None) == 'application/json'
 
             if is_django_request(record.request) and is_json_request(record.request):
+                is_json_request = is_json_request(record.request)
+
                 record.request = {
                     'request': record.request,
                     'headers': record.request.headers,
-                    'body': record.request.body.decode('UTF-8')
                 }
+
+                if is_json_request:
+                    request.record['body'] = record.request.body.decode('UTF-8')
 
         super().add_fields(log_record, record, message_dict)

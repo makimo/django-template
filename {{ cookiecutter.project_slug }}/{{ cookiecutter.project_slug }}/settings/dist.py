@@ -26,7 +26,7 @@ LOGGING = {
         },
         'json_formatter': {
             'class': '{{ cookiecutter.project_slug }}.apps.common.formatters.DjangoRequestJsonFormatter',
-            'format': '%(levelname)s %(module)s %(process)d %(thread)d %(message)s'
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
         },
     },
     'handlers': {
@@ -39,7 +39,7 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'json': {
+        'console_json': {
             'class': 'logging.StreamHandler',
             'formatter': 'json_formatter'
         }
@@ -47,10 +47,10 @@ LOGGING = {
     'loggers': {
         'apps': {
             "level": "DEBUG",
-            "handlers": ["json"],
+            "handlers": ["console_json"],
         },
         'django': {
-            'handlers': ["json"],
+            'handlers': ["console_json"],
             'level': 'INFO',
             'propagate': True,
         },

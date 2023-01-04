@@ -1,5 +1,5 @@
 django==3.1.10               
-psycopg2-binary==2.8.4      
+psycopg2-binary==2.9.5
 django-crispy-forms==1.8.1  
 django-mail-templated==2.6.5
 django-model-utils==4.0.0   

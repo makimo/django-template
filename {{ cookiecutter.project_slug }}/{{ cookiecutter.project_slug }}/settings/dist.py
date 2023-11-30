@@ -24,54 +24,33 @@ LOGGING = {
         'simple': {
             'format': '%(levelname)s %(message)s'
         },
+        'json_formatter': {
+            'class': '{{ cookiecutter.project_slug }}.apps.common.formatters.DjangoRequestJsonFormatter',
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
     },
     'handlers': {
-        'mail_admins': {
-            'class': 'django.utils.log.AdminEmailHandler',
-            'level': 'ERROR',
-            'include_html': True,
-        },
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        "debug_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "level": "DEBUG",
-            "formatter": "verbose",
-            "filename": os.path.join(BASE_DIR, 'logs', 'debug.log'),
-            "maxBytes": 10485760,
-            "backupCount": 20,
-            "encoding": "utf8"
-        },
-        "info_file_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "level": "INFO",
-            "formatter": "verbose",
-            "filename": os.path.join(BASE_DIR, 'logs', 'info.log'),
-            "maxBytes": 10485760,
-            "backupCount": 20,
-            "encoding": "utf8"
+        'console_json': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'json_formatter'
         }
     },
     'loggers': {
         'apps': {
             "level": "DEBUG",
-            "handlers": ["debug_file_handler", "info_file_handler"],
+            "handlers": ["console_json"],
         },
         'django': {
-            'handlers': ["debug_file_handler", "info_file_handler"],
+            'handlers': ["console_json"],
             'level': 'INFO',
             'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
+        }
     },
 }
-
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'dist')
 
@@ -86,4 +65,14 @@ CACHES = {
     }
 }
 
+# Settings used to configurate whitenoise if needed
+# MIDDLEWARE = [
+#     'django.middleware.security.SecurityMiddleware',
+#     'whitenoise.middleware.WhiteNoiseMiddleware',
+# ] + MIDDLEWARE
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 WEBPACK_MANIFEST_FILE = os.path.join(BASE_DIR, '../webpack-stats.dist.json')
+
+# Uncomment this if you want to allow logging to sentry from django app
+# from .sentry import *

@@ -1,7 +1,5 @@
 # Project
 
-/{{ cookiecutter.project_slug }}/settings/db.py
-/{{ cookiecutter.project_slug }}/settings/email.py
 /{{ cookiecutter.project_slug }}/uploads/*
 /node_modules/
 /logs/*

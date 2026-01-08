@@ -1,0 +1,94 @@
+name: Deploy to production
+
+# DISABLED BY DEFAULT - This workflow only runs manually.
+# To enable automatic deployment on push to main, uncomment the 'push' trigger below.
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+  # Uncomment below to enable automatic deployment on push to main:
+  # push:
+  #   branches:
+  #     - main
+  #   paths-ignore:
+  #     - 'docker/**'
+  #     - '**.md'
+  #     - '{{ cookiecutter.project_slug }}/apps/**/tests/**'
+  #     - '{{ cookiecutter.project_slug }}/settings/local.py'
+  #     - 'requirements/local.txt'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: {% raw %}${{ runner.os }}{% endraw %}-pip-{% raw %}${{ hashFiles('requirements/dist.txt', 'requirements/base.txt') }}{% endraw %}
+          restore-keys: |
+            {% raw %}${{ runner.os }}{% endraw %}-pip-
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: {% raw %}${{ runner.os }}{% endraw %}-node-{% raw %}${{ hashFiles('package-lock.json') }}{% endraw %}
+          restore-keys: |
+            {% raw %}${{ runner.os }}{% endraw %}-node-
+
+      - name: Install backend packages
+        run: pip install -r requirements/dist.txt
+
+      - name: Install frontend packages
+        run: npm ci
+
+      - name: Build production assets
+        run: npm run build-dist
+
+      - name: Copy static assets
+        run: python3 manage.dist.py collectstatic --noinput
+
+      - name: Generate REVISION file
+        run: |
+          git describe --tags --always > {{ cookiecutter.project_slug }}/REVISION
+          echo "Generated version: $(cat {{ cookiecutter.project_slug }}/REVISION)"
+
+      - name: Copy files to the server
+        uses: burnett01/rsync-deployments@7.0.1
+        with:
+          switches: -avzr --delete --include-from=.github/workflows/rsync.include --exclude-from=.github/workflows/rsync.exclude
+          remote_path: {% raw %}${{ secrets.DEPLOY_PATH }}{% endraw %}
+          remote_host: {% raw %}${{ secrets.DEPLOY_HOST }}{% endraw %}
+          remote_port: {% raw %}${{ secrets.DEPLOY_PORT }}{% endraw %}
+          remote_user: {% raw %}${{ secrets.DEPLOY_USER }}{% endraw %}
+          remote_key: {% raw %}${{ secrets.DEPLOY_KEY }}{% endraw %}
+
+      - name: Install dependencies and run migrations
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: {% raw %}${{ secrets.DEPLOY_HOST }}{% endraw %}
+          username: {% raw %}${{ secrets.DEPLOY_USER }}{% endraw %}
+          key: {% raw %}${{ secrets.DEPLOY_KEY }}{% endraw %}
+          port: {% raw %}${{ secrets.DEPLOY_PORT }}{% endraw %}
+          script: |
+            {% raw %}${{ secrets.DEPLOY_PATH }}{% endraw %}/env/bin/pip install -r {% raw %}${{ secrets.DEPLOY_PATH }}{% endraw %}/requirements/dist.txt
+            {% raw %}${{ secrets.DEPLOY_PATH }}{% endraw %}/env/bin/python {% raw %}${{ secrets.DEPLOY_PATH }}{% endraw %}/manage.dist.py migrate
+            supervisorctl restart {{ cookiecutter.project_slug }}

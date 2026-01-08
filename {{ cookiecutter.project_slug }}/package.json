@@ -21,7 +21,7 @@
   "dependencies": {
     "@sentry/browser": "^5.17.0",
     "@sentry/integrations": "^5.17.0",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.3.3",
     "bulma": "^0.9.0",
     "moment": "^2.30.1",
     "pinia": "^2.3.0",

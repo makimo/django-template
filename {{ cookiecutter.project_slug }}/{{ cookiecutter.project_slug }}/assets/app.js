@@ -5,6 +5,9 @@
 // see scoped CSS.
 import './app.scss';
 
+// Bootstrap JS
+import 'bootstrap';
+
 // Vendor-specific scripts and initialization
 import './vendor/example.js';
 

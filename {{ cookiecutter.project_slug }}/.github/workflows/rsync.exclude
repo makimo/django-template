@@ -1,0 +1,32 @@
+/node_modules
+/docker
+/docs
+/manage.py
+/package.json
+/package-lock.json
+/rsbuild.config.mjs
+/pytest.ini
+/TODO.md
+/CLAUDE.md
+/.gitlint
+/Makefile
+/{{ cookiecutter.project_slug }}/settings/db.py
+/{{ cookiecutter.project_slug }}/settings/email.py
+/{{ cookiecutter.project_slug }}/uploads/
+/{{ cookiecutter.project_slug }}/fixtures/dev
+/{{ cookiecutter.project_slug }}/fixtures/tests
+/{{ cookiecutter.project_slug }}/settings/local.py
+/{{ cookiecutter.project_slug }}/settings/db.py.base
+/{{ cookiecutter.project_slug }}/settings/email.py.base
+/{{ cookiecutter.project_slug }}/assets
+/requirements/local.txt
+/{{ cookiecutter.project_slug }}/logs/
+/run/gunicorn.sock
+/env
+/.git
+/.github
+.gitignore
+.dockerignore
+/config
+*.pyc
+__pycache__

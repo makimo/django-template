@@ -63,4 +63,4 @@ jobs:
         env:
           DJANGO_SETTINGS_MODULE: {{ cookiecutter.project_slug }}.settings.ci
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/{{ cookiecutter.project_slug }}_test
-        run: pytest
+        run: python manage.py test --noinput

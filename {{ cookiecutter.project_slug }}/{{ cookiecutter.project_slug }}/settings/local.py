@@ -42,5 +42,3 @@ INTERNAL_IPS = [
     '127.0.0.1'
 ]
 
-WEBPACK_MANIFEST_FILE = os.path.join(BASE_DIR, '../webpack-stats.local.json')
-

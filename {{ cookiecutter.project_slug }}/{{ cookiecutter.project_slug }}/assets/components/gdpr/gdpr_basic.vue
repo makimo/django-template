@@ -6,39 +6,21 @@
                 Korzystanie z tej strony jest anonimowe, jednakże potrzebujemy kilku Twoich zgód.</p>
 
             <div v-if="linkExtendInBasic" class="cc-text-center">
-                <button class="cc-button cc-button-borderless" @click="openExtendInBasic">Ustawienia plików cookie</button>
+                <button class="cc-button cc-button-borderless" @click="gdprStore.openExtendInBasic()">Ustawienia plików cookie</button>
             </div>
 
             <div class="cc-text-center">
-                <button v-if="allPermissionsAreOptional" class="cc-button cc-button-primary-delay" @click="setAllFalse">Nie akceptuj</button>
-                <button class="cc-button cc-button-primary" @click="setAllTrue">Zaakceptuj</button>
+                <button v-if="allPermissionsAreOptional" class="cc-button cc-button-primary-delay" @click="gdprStore.setAllFalse()">Nie akceptuj</button>
+                <button class="cc-button cc-button-primary" @click="gdprStore.setAllTrue()">Zaakceptuj</button>
             </div>
         </section>
     </div>
 </template>
 
-<script>
-import { mapActions, mapGetters, mapState } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useGdprStore } from './gdpr.js';
 
-export default {
-    name: 'GDPRBasic',
-
-    computed: {
-        ...mapGetters([
-            'allPermissionsAreOptional',
-        ]),
-
-        ...mapState({
-            linkExtendInBasic: state => state.gdpr.linkExtendInBasic,
-        }),
-    },
-
-    methods: {
-        ...mapActions([
-            'setAllFalse',
-            'setAllTrue',
-            'openExtendInBasic',
-        ]),
-    },
-}
+const gdprStore = useGdprStore();
+const { allPermissionsAreOptional, linkExtendInBasic } = storeToRefs(gdprStore);
 </script>

@@ -6,52 +6,36 @@
                 <p>W każdej chwili możesz zmienić ustawienia cookies korzystając z poniższego panelu.</p>
             </header>
             <div class="cc-toggles">
-                <gdpr-column permission="personalization">
+                <GdprColumn permission="personalization">
                     <h2>Personalizacja</h2>
                     <p>Korzystamy z przycisków udostępnionych przez serwis Facebook.</p>
-                </gdpr-column>
+                </GdprColumn>
 
-                <gdpr-column permission="analytics">
+                <GdprColumn permission="analytics">
                     <h2>Analiza</h2>
                     <p>Korzystamy z analizy Google, która pozwala na zbieranie danych
                     na temat korzystania z naszej strony przez użytkowników, które przesyłane są
                     do nas w celu zwiększenia jakości usługi.</p>
-                </gdpr-column>
+                </GdprColumn>
 
-                <gdpr-column permission="example">
+                <GdprColumn permission="example">
                     <h2>Example</h2>
                     <p>Example</p>
-                </gdpr-column>
+                </GdprColumn>
             </div>
             <div class="cc-footer">
-                <button class="cc-button cc-button-secondary" @click="saveAllCookies">Zapisz i zamknij</button>
+                <button class="cc-button cc-button-secondary" @click="gdprStore.saveAllCookies()">Zapisz i zamknij</button>
                 <div class="cc-bottom-panel">
-                    <button class="cc-button cc-button-primary" @click="saveAllCookiesSlow">Zaakceptuj wszystko</button>
-                </div> 
+                    <button class="cc-button cc-button-primary" @click="gdprStore.saveAllCookiesSlow()">Zaakceptuj wszystko</button>
+                </div>
             </div>
         </section>
     </div>
 </template>
 
-<script>
-import { mapActions } from 'vuex';
+<script setup>
+import { useGdprStore } from './gdpr.js';
+import GdprColumn from './gdpr_column.vue';
 
-import GDPRColumn from './gdpr_column';
-import GDPRToggle from './gdpr_toggle';
-
-export default {
-    name: 'GDPRExtend',
-
-    components: {
-        'gdpr-column': GDPRColumn,
-        'gdpr-toggle': GDPRToggle,
-    },
-
-    methods: {
-        ...mapActions([
-            'saveAllCookies',
-            'saveAllCookiesSlow',
-        ]),
-    },
-}
+const gdprStore = useGdprStore();
 </script>

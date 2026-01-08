@@ -3,23 +3,14 @@
         <div class="cc-description">
             <slot></slot>
         </div>
-
-        <gdpr-toggle :name="permission" />
+        <GdprToggle :name="permission" />
     </div>
 </template>
 
-<script>
-import GDPRToggle from './gdpr_toggle';
+<script setup>
+import GdprToggle from './gdpr_toggle.vue';
 
-export default {
-    name: 'GDPRColumn',
-
-    props: {
-        permission: String,
-    },
-
-    components: {
-        'gdpr-toggle': GDPRToggle,
-    },
-}
+defineProps({
+    permission: String,
+});
 </script>

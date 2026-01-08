@@ -1,10 +1,10 @@
 import { defineConfig } from '@rsbuild/core';
 import HtmlRspackPlugin from 'html-rspack-plugin';
-import { pluginVue2 } from '@rsbuild/plugin-vue2';
+import { pluginVue } from '@rsbuild/plugin-vue';
 import { pluginSass } from '@rsbuild/plugin-sass';
 
 export default defineConfig({
-  plugins: [pluginVue2(), pluginSass()],
+  plugins: [pluginVue(), pluginSass()],
 
   source: {
     entry: {

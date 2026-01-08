@@ -1,38 +1,31 @@
-import Vue from 'vue'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import VueCookies from 'vue-cookies';
-import Vuex from 'vuex'
-import HelloWorldComponent from './hello_world.vue'
 
-import gdpr from './gdpr/gdpr.vue';
-import { gdprConfig } from './gdpr/gdpr.js';
+import HelloWorldComponent from './hello_world.vue';
+import Gdpr from './gdpr/gdpr.vue';
+import { useGdprStore } from './gdpr/gdpr.js';
 import './../styles/gdpr.scss';
 
-Vue.use(Vuex);
-Vue.component('gdpr', gdpr);
-Vue.use(VueCookies);
+const app = createApp(HelloWorldComponent);
+const pinia = createPinia();
 
-const store = new Vuex.Store({
-    modules: {
-        // It's required to name store module as gdpr.
-        gdpr: gdprConfig({
-            permissions: {
-                // Change default value for required property.
-                personalization: {
-                    required: true,
-                },
-                // Add new permission to store.
-                example: {
-                    name: 'example',
-                    cookieName: 'gdpr-example',
-                    required: false,
-                    value: window.$cookies.get('gdpr-example'),
-                }
-            }
-        }),
-    },
+app.use(pinia);
+app.use(VueCookies);
+app.component('gdpr', Gdpr);
+
+// Configure and initialize the GDPR store
+const gdprStore = useGdprStore();
+gdprStore.configure({
+    permissions: {
+        personalization: { required: true },
+        example: {
+            name: 'example',
+            cookieName: 'gdpr-example',
+            required: false,
+        }
+    }
 });
+gdprStore.initializeCookies();
 
-new Vue({
-    store,
-    render: h => h(HelloWorldComponent)
-}).$mount('#app')
+app.mount('#app');

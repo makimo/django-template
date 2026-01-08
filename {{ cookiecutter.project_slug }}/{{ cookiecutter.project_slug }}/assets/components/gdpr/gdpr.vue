@@ -1,36 +1,20 @@
 <template>
     <div>
         <div v-if="shouldOpenBasicModal" class="consent-cookie">
-            <gdpr-basic />
+            <GdprBasic />
         </div>
         <div v-else-if="extendOpen" class="consent-cookie">
-            <gdpr-extend />
+            <GdprExtend />
         </div>
     </div>
 </template>
 
-<script>
-import { mapGetters, mapState } from 'vuex';
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useGdprStore } from './gdpr.js';
+import GdprBasic from './gdpr_basic.vue';
+import GdprExtend from './gdpr_extend.vue';
 
-import GDPRBasic from './gdpr_basic';
-import GDPRExtend from './gdpr_extend';
-
-export default {
-    name: 'gdpr',
-
-    components: {
-        'gdpr-basic': GDPRBasic,
-        'gdpr-extend': GDPRExtend,
-    },
-
-    computed: {
-        ...mapGetters([
-            'shouldOpenBasicModal',
-        ]),
-
-        ...mapState({
-            extendOpen: state => state.gdpr.extendOpen,
-        }),
-    },
-}
+const gdprStore = useGdprStore();
+const { shouldOpenBasicModal, extendOpen } = storeToRefs(gdprStore);
 </script>

@@ -1,37 +1,27 @@
 <template>
     <div>
         <button type="button"
-            @click="setToggle($event)"
+            @click="handleToggle"
             :data-cc-cookie-toggle="name"
             autocomplete="off"
-            :class="permissionAttributes(name)[0]"
-            :aria-pressed="permissionAttributes(name)[1]"
-            :disabled="permissionAttributes(name)[2]">
+            :class="gdprStore.permissionAttributes(name)[0]"
+            :aria-pressed="gdprStore.permissionAttributes(name)[1]"
+            :disabled="gdprStore.permissionAttributes(name)[2]">
             <div class="handle"></div>
         </button>
     </div>
 </template>
 
-<script>
-import { mapActions, mapGetters } from 'vuex';
+<script setup>
+import { useGdprStore } from './gdpr.js';
 
-export default {
-    name: 'GDPRToggle',
+const props = defineProps({
+    name: String,
+});
 
-    props: {
-        name: String,
-    },
+const gdprStore = useGdprStore();
 
-    computed: {
-        ...mapGetters([
-            'permissionAttributes',
-        ]),
-    },
-
-    methods: {
-        ...mapActions([
-            'setToggle',
-        ]),
-    },
-}
+const handleToggle = () => {
+    gdprStore.setToggle(props.name);
+};
 </script>

@@ -1,7 +1,8 @@
-django==3.1.14               
-psycopg2-binary==2.9.5
-django-crispy-forms==1.9.1
+pip>=23
+django==5.2
+psycopg2-binary
+django-crispy-forms==2.3
 django-mail-templated==2.6.5
-django-model-utils==4.0.0
-django-extensions==2.2.9
-django-environ==0.4.5
+django-model-utils==5.0.0
+django-extensions==3.2.3
+django-environ==0.11.2

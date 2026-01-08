@@ -72,7 +72,5 @@ CACHES = {
 # ] + MIDDLEWARE
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-WEBPACK_MANIFEST_FILE = os.path.join(BASE_DIR, '../webpack-stats.dist.json')
-
 # Uncomment this if you want to allow logging to sentry from django app
 # from .sentry import *

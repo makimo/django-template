@@ -4,30 +4,19 @@
   "description": "{{ cookiecutter.project_short_description }}",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config config/webpack.local.js --mode development",
-    "build-dist": "webpack --config config/webpack.dist.js --mode production --progress",
-    "dev": "webpack --config config/webpack.local.js --watch --mode development"
+    "build": "rsbuild build --environment local",
+    "build-dist": "rsbuild build --environment dist --mode production",
+    "dev": "rsbuild build --environment local --watch"
   },
   "author": "Makimo",
   "license": "{{ 'UNLICENSED' if cookiecutter.license == 'Proprietary' else cookiecutter.license }}",
   "devDependencies": {
-    "@babel/preset-env": "^7.10.2",
-    "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^3.6.0",
-    "file-loader": "^6.0.0",
-    "imports-loader": "^0.8.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "sass": "^1.79.3",
+    "@rsbuild/core": "^1.5.8",
+    "@rsbuild/plugin-sass": "^1.4.0",
+    "@rsbuild/plugin-vue2": "^1.0.4",
+    "html-rspack-plugin": "^6.1.3",
     "rimraf": "^6.0.1",
-    "sass-loader": "^8.0.2",
-    "style-loader": "^1.2.1",
-    "vue-loader": "^15.9.2",
-    "vue-template-compiler": "^2.7.8",
-    "webpack": "^4.43.0",
-    "webpack-assets-manifest": "^3.1.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-merge": "^4.2.2",
-    "webpack-notifier": "^1.8.0"
+    "sass": "^1.79.3"
   },
   "dependencies": {
     "@sentry/browser": "^5.17.0",

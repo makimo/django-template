@@ -1,0 +1,66 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'docker/**'
+      - '**.md'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: {{ cookiecutter.project_slug }}_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: {% raw %}${{ runner.os }}{% endraw %}-pip-{% raw %}${{ hashFiles('requirements/local.txt', 'requirements/base.txt') }}{% endraw %}
+          restore-keys: |
+            {% raw %}${{ runner.os }}{% endraw %}-pip-
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: {% raw %}${{ runner.os }}{% endraw %}-node-{% raw %}${{ hashFiles('package-lock.json') }}{% endraw %}
+          restore-keys: |
+            {% raw %}${{ runner.os }}{% endraw %}-node-
+
+      - name: Install backend packages
+        run: pip install -r requirements/local.txt
+
+      - name: Install frontend packages
+        run: npm ci
+
+      - name: Build assets for testing
+        run: npm run build
+
+      - name: Run Django tests
+        env:
+          DJANGO_SETTINGS_MODULE: {{ cookiecutter.project_slug }}.settings.ci
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/{{ cookiecutter.project_slug }}_test
+        run: pytest

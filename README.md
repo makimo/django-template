@@ -22,6 +22,24 @@ All of the project files are NOT in the base directory. They are in the
 `{{ cookiecutter.project_slug }}` directory. Top-level directory is used
 for cookiecutter files and repository settings.
 
+## Testing the template
+
+Use `test-env.py` to automatically test template generation and Docker setup:
+
+```
+./test-env.py "Test Project"           # Generate, test, and clean up
+./test-env.py "Test" --no-remove       # Keep generated project after testing
+./test-env.py "Test" -f                # Run Docker in foreground for manual testing
+./test-env.py "Test" --clean           # Clean up existing test project
+```
+
+The script:
+1. Checks prerequisites (Python, cookiecutter, Docker)
+2. Generates a project from the template
+3. Starts Docker services and waits for readiness
+4. Runs validation checks (file structure, template substitution, Django check)
+5. Cleans up all artifacts (containers, volumes, project directory)
+
 # Asset directory structure
 
 ```

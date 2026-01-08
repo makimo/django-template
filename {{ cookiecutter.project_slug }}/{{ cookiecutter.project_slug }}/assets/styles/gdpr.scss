@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "sass:color";
+
 @import "~bootstrap/scss/_functions";
 @import "~bootstrap/scss/_variables";
 @import "~bootstrap/scss/_mixins";
@@ -66,7 +69,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @mixin button-color($color) {
-    border-color: darken($color, 10%);
+    border-color: color.adjust($color, $lightness: -10%);
 
     background: $color;
 
@@ -77,13 +80,13 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     &:hover, &:focus {
-        border-color: darken($color, 15%);
-        background: darken($color, 3%);
+        border-color: color.adjust($color, $lightness: -15%);
+        background: color.adjust($color, $lightness: -3%);
     }
 
     &:active {
-        border-color: darken($color, 18%);
-        background: darken($color, 5%);
+        border-color: color.adjust($color, $lightness: -18%);
+        background: color.adjust($color, $lightness: -5%);
     }
 }
 
@@ -160,8 +163,8 @@ h1, h2, h3, h4, h5, h6 {
 
   > .handle {
     position: absolute;
-    top: ($size * .25) / 2;
-    left: ($size * .25) / 2;
+    top: math.div($size * .25, 2);
+    left: math.div($size * .25, 2);
     width: $size * .75;
     height: $size * .75;
     border-radius: $size * .75;
@@ -172,7 +175,7 @@ h1, h2, h3, h4, h5, h6 {
   &.active {
     transition: background-color .25s;
     > .handle {
-      left: $size + (($size * .25) / 2);
+      left: $size + math.div($size * .25, 2);
       transition: left .25s;
     }
     &:before {
@@ -358,7 +361,7 @@ h1, h2, h3, h4, h5, h6 {
     color: $brand-primary;
 
     &:hover {
-        color: darken($brand-primary, 10%);
+        color: color.adjust($brand-primary, $lightness: -10%);
     }
 }
 

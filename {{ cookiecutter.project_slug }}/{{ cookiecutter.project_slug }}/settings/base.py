@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'crispy_forms',
+    'crispy_bootstrap5',
     'mail_templated',
     'django_extensions',
 
@@ -49,7 +50,8 @@ INSTALLED_APPS = [
     '{{ cookiecutter.project_slug }}.apps.hello_world'
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

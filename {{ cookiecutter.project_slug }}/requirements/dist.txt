@@ -1,5 +1,5 @@
 -r base.txt
-gunicorn==20.0.4
+gunicorn==23.0.0
 # sentry-sdk==0.15.1
 # whitenoise==5.1.0
-python-json-logger==0.1.11
+python-json-logger==3.0.0

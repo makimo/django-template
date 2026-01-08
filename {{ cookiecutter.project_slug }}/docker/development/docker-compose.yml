@@ -1,37 +1,45 @@
-version: "3.7"
 
 networks:
     {{ cookiecutter.project_slug }}:
 
 services:
     {{ cookiecutter.project_slug }}-db:
-        image: postgres:12-alpine
+        image: postgres:14-alpine
         environment:
             POSTGRES_PASSWORD: secret
             POSTGRES_USER: {{ cookiecutter.project_slug }}
             POSTGRES_DB: {{ cookiecutter.project_slug }}
         volumes:
-            - "{{ cookiecutter.project_slug }}-db:/var/lib/postgresql/data"
+            - "./db:/var/lib/postgresql/data"
         networks:
             - {{ cookiecutter.project_slug }}
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U {{ cookiecutter.project_slug }}"]
+            interval: 2s
+            timeout: 2s
+            retries: 10
 
     {{ cookiecutter.project_slug }}-backend:
-        build:
-            context: ../..
-            dockerfile: docker/development/Dockerfile
+        image: "python:3.13-alpine"
         volumes:
             - "../..:/app"
-            - "{{ cookiecutter.project_slug }}-node_modules:/app/node_modules"
         ports:
             - "8000:8000"
         networks:
             - {{ cookiecutter.project_slug }}
         depends_on:
-            - {{ cookiecutter.project_slug }}-db
-        command: "/app/tools/run-development.sh"
+            {{ cookiecutter.project_slug }}-db:
+                condition: service_healthy
+        command: "/app/docker/development/scripts/run-development.sh"
+        working_dir: /app
         environment:
             DATABASE_URL: "postgresql://{{ cookiecutter.project_slug }}:secret@{{ cookiecutter.project_slug }}-db:5432/{{ cookiecutter.project_slug }}"
 
-volumes:
-    {{ cookiecutter.project_slug }}-db:
-    {{ cookiecutter.project_slug }}-node_modules:
+    {{ cookiecutter.project_slug }}-frontend:
+        image: "node:22-alpine"
+        volumes:
+            - "../..:/app"
+        ports:
+            - "8080:8080"
+        command: "/app/docker/development/scripts/run-frontend.sh"
+        working_dir: /app

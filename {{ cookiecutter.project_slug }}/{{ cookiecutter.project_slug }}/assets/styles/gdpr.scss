@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6 {
 
     background: $color;
 
-    @if lightness($color) > 50% {
+    @if color.channel($color, "lightness", $space: hsl) > 50% {
         color: black;
     } @else {
         color: white;

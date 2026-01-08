@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config config/webpack.local.js --mode development",
-    "build-dist": "webpack --config config/webpack.dist.js --mode production --progress --colors && sed -i -e 's?'`pwd`'?/home/sites/vhosts/{{ cookiecutter.project_slug }}.makimo.pl?g' webpack-stats.dist.json",
-    "watch-assets": "webpack --config config/webpack.local.js --watch --mode development",
-    "watch-python": "./manage.py runserver 0.0.0.0:8000",
-    "dev": "concurrently npm:watch-*"
+    "build-dist": "webpack --config config/webpack.dist.js --mode production --progress",
+    "dev": "webpack --config config/webpack.local.js --watch --mode development"
   },
   "author": "Makimo",
   "license": "{{ 'UNLICENSED' if cookiecutter.license == 'Proprietary' else cookiecutter.license }}",
@@ -19,30 +17,29 @@
     "file-loader": "^6.0.0",
     "imports-loader": "^0.8.0",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.14.1",
-    "rimraf": "^3.0.2",
+    "sass": "^1.79.3",
+    "rimraf": "^6.0.1",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
     "vue-loader": "^15.9.2",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.7.8",
     "webpack": "^4.43.0",
     "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2",
-    "webpack-notifier": "^1.8.0",
-    "concurrently": "^5.2.0"
+    "webpack-notifier": "^1.8.0"
   },
   "dependencies": {
     "@sentry/browser": "^5.17.0",
     "@sentry/integrations": "^5.17.0",
     "axios": "^0.19.2",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^4.6.2",
     "bulma": "^0.9.0",
     "jquery": "^3.5.1",
-    "moment": "^2.26.0",
+    "moment": "^2.30.1",
     "popper.js": "^1.16.1",
-    "vue": "^2.6.11",
+    "vue": "^2.7.8",
     "vue-cookies": "^1.7.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.6.2"
   }
 }

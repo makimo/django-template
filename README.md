@@ -22,24 +22,12 @@ All of the project files are NOT in the base directory. They are in the
 `{{ cookiecutter.project_slug }}` directory. Top-level directory is used
 for cookiecutter files and repository settings.
 
-## Quickstart Makefiles
-
-Put your own quickstart initialization into the
-`{{ cookiecutter.project_slug }}/quickstart` directory. See `dragonee.mk` for reference.
-
-Some rules if you are going to write your own Makefile.
-
-- The targets should follow closely README chapters with your toolkit of choice.
-- Do not automate anything that is not in README.
-- Do not modify global Makefile unless acknowledged by majority of the team.
-
 # Asset directory structure
 
 ```
 assets/
    ├── app.js
-   ├── vendor.js
-   ├── apps.scss
+   ├── app.scss
    ├── components/
    │       ├── hello_world.vue
    │       ├── hello_world_mount.js
@@ -47,68 +35,53 @@ assets/
    ├── images/
    │      └── ... [.png/.jpg]
    ├── scripts/
-   │      ├── vendor/
-   │      │     └── ... [.js]
    │      └── ... [.js]
    ├── styles/
    │     └── ... [.css/.scss]
-   └── vendor
-         └── ...
+   └── vendor/
+         └── ... [.js]
 ```
 
 ### app.js
 
-Application code-base entry point. Normally, this file is used to
-load application dependencies such as scripts in `scripts/` and
-`app.scss`.
+Application code-base entry point. Loads application dependencies such as
+Bootstrap JS, scripts in `scripts/`, and `app.scss`.
 
-### vendor.js
+### app.scss
 
-Loads vendor dependencies (e.g. front-end themes such as Material Admin).
-
-### apps.scss
-
-Main entry-point for application-wide styles. Loads files in `styles/`.
+Main entry-point for application-wide styles. Imports Bootstrap SCSS and
+files in `styles/`.
 
 ### components/
 
-Vue's single-page applications and their mount scripts.
+Vue 3 single-file components and their mount scripts.
 
 ### scripts/
 
-Vanilla JavaScript front-end scripts. Those usually rely on jQuery + AJAX.
-
-### scripts/vendor/
-
-Subset of JavaScript scripts related to 3rd party library usage, such
-as initialisation of plugins.
+Vanilla JavaScript front-end scripts and shared utilities.
 
 ### styles/
 
-Application-wide styles divided into logical components (such as related
-to header, sidebar, search-bar and so on).
+Application-wide styles divided into logical components.
 
 ### vendor/
 
-Vendor dependencies (see `vendor.js`).
+Vendor-specific scripts and initialization.
 
-# Webpack generated files
+# RSBuild generated files
 
-1. `runtime` - Shared runtime Webpack code. Extracted for performance from
-`vendor` and `app`.
+RSBuild compiles assets with content hashing for cache busting. For each
+entry point, RSBuild generates:
 
-2. `app` - Application-specific code-base, i.e. stuff that programmer writes.
+1. `{entry}.[hash].js` - JavaScript bundle
+2. `{entry}.[hash].css` - CSS bundle (if entry imports styles)
+3. `{entry}-js-tags.html` - HTML script tags for Django templates
+4. `{entry}-css-tags.html` - HTML link tags for Django templates
 
-3. `vendor` - Scripts compiled from vendor dependencies (such as front-end
-themes).
-
-4. `common` - Shared dependencies compiled from `vendor` and `app`, e.g.
-jQuery. This file will not be generated if no shared dependencies are
-detected by Webpack.
-
-5. `shared` - Shared utilities and helpers.
+Entry points are defined in `rsbuild.config.mjs`. Default entries:
+- `app` - Main application bundle
+- `hello_world_mount` - Vue component example
 
 # Issues
 
 Report all issues under this repository Issues page.
-

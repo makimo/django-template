@@ -1,5 +1,5 @@
 pip>=23
-django==5.2
+django==5.2.9
 psycopg2-binary
 django-crispy-forms==2.3
 django-mail-templated==2.6.5

@@ -1,0 +1,24 @@
+name: Code Quality
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - 'docker/**'
+      - '**.md'
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pyscn
+      - name: Quick quality check
+        run: pyscn check {{ cookiecutter.project_slug }}/
+      - name: Generate detailed report
+        run: pyscn analyze --json --select complexity,deadcode,deps {{ cookiecutter.project_slug }}/
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-quality-report
+          path: .pyscn/reports/
